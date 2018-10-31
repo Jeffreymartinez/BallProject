@@ -5,7 +5,7 @@ This is a folder with my introductory project in computing 1 quarter 2
 let balls = [];
 
 function setup() {
-  	createCanvas(1400, 620);
+  	createCanvas(400,400);
 }
 
 function draw(){
