@@ -1,92 +1,296 @@
-//create an empty array called balls
 let balls = [];
+let smallBalls = [];
+let largeBalls = [];
+let p = 0;
+
 
 function setup() {
-  	createCanvas(1400, 620);
+  createCanvas(1400, 800);
+
 }
+
 
 function draw(){
-	background(220);
-  	paddle();
+  background(0);
+  stroke("yellow");
+  strokeWeight(1.5);
+  fill("orange");
+  ellipse(mouseX, mouseY, 30, 30);
+//shows your score
+  textSize(37);
+  fill("yellow");
+  text('SCORE:', 20, 40);
+  textSize(37);
+  text(p, 170, 40);
+//instruction text at the beginning
+if(p<200){
+  textSize(50);
+  fill("red");
+  text('DODGE THE CIRCLES',450, 400);
+  textSize(40);
+  text('by moving your mouse', 516, 450);
+}
+// p is a counter that tells time in the game. Depending on how much time is passed, make balls of different sizes at various intervals
+  p = p+1
+// this is for the large blue balls that are at the start.
+//  this controls how many spawn at different times.
+  if(p>1000 && p<3000){
+    if (frameCount % 10 == 0) {
+        let  b = new Ball(width, random(0,height), -3);
+        balls.push(b);
+        console.log(balls);
+      }
+    }
+  else if(p>3000 && p<5000){
+            if (frameCount % 7 == 0) {
+                let  b = new Ball(width, random(0,height), -3);
+                balls.push(b);
+                console.log(balls);
+              }
+    }
+    else if(p>6000 && p<7000){
+      if (frameCount % 10 == 0) {
+          let  b = new Ball(width, random(0,height), -3);
+          balls.push(b);
+          console.log(balls);
+        }
+    } else if(p>7000 && p<7500) {
+      if (frameCount % 40 == 0) {
+          let  b = new Ball(width, random(0,height), -3);
+          balls.push(b);
+          console.log(balls);
+        }
+    }else if(p>7500 && p<7900){
+      if (frameCount % 35 == 0) {
+          let  b = new Ball(width, random(0,height), -3);
+          balls.push(b);
+          console.log(balls);
+        }
+    }else if (p>9200 && p<9600){
+      if (frameCount % 30 == 0) {
+          let  b = new Ball(width, random(0,height), -3);
+          balls.push(b);
+          console.log(balls);
+        }
+    }
+  else {
+    if (frameCount % 20 == 0) {
+        let  b = new Ball(width, random(0,height), -3);
+        balls.push(b);
+        console.log(balls);
+      }
+  }
 
-//	draw all the balls in that array
+//This is for the smaller red balls.
+//   this makes the balls spawn in different amounts based on what time it is.
+
+
+  if (p>5000 && p<6000){ //p>5000 && p<6000
+    if (frameCount % 35 == 0) {
+        let  b = new SmallBall(width, random(0,height), -3);
+        smallBalls.push(b);
+        console.log(smallBalls);
+      }
+    } else if(p>7000 && p<7900){  //p>7000 && p<7900
+      if (frameCount % 20 == 0) {
+          let  b = new SmallBall(random(0,width), 0, 3);
+          smallBalls.push(b);
+          console.log(smallBalls);
+        }
+    }else if(p>7900 && p<8500) {  //p>7900 && p<8500
+      if (frameCount % 10 == 0) {
+          let  b = new SmallBall(random(0,width), 0, 3);
+          smallBalls.push(b);
+          console.log(smallBalls);
+        }
+    }
+
+else {
+        if (frameCount % 20 == 0) {
+            let  b = new SmallBall(width, random(0,height), -3);
+            smallBalls.push(b);
+            console.log(smallBalls);
+      }
+  }
+
+
+  if (p>8500 && p<9500){ //p>5000 && p<6000
+    if (frameCount % 35 == 0) {
+        let  b = new LargeBall(width, random(0,height), -3);
+        largeBalls.push(b);
+        console.log(largeBalls);
+      }
+    } else if(p>9500 && p<11500){  //p>7000 && p<7900
+      if (frameCount % 20 == 0) {
+          let  b = new LargeBall(random(0,width), 0, 3);
+          largeBalls.push(b);
+          console.log(largeBalls);
+        }
+    }else {
+        if (frameCount % 20 == 0) {
+            let  b = new LargeBall(width, random(0,height), -3);
+            largeBalls.push(b);
+            console.log(largeBalls);
+      }
+  }
+// end of ball-related if statements
+
+
 	for (let i = 0; i < balls.length; i++) {
-	 	balls[i].drawBall();
-       	    	balls[i].moveBall();
-        	balls[i].bounceBall();
-        balls[i].bounceBack();
-      balls[i].bounceUp();
-    balls[i].bounceDown();
+	 	      balls[i].drawBall();
+       	  balls[i].moveBall();
+        	balls[i].killBall();
 	  }
-}
 
-function keyPressed(){ //every time you push a key, make a new ball from the ball class and add it to the balls array
-    let  b = new Ball(20, 100, 3);
-    balls.push(b);
-    console.log(balls); //print the balls array to the console
-}
+    for (let i = 0; i < smallBalls.length; i++) {
+  	 	      smallBalls[i].drawSmallBall();
+         	  smallBalls[i].moveSmallBall();
+          	smallBalls[i].speedSmallBall();
+            smallBalls[i].killSmallBall();
+          }
 
-// make the paddle and attach it to the mouse
-function paddle(){
-  stroke("black");
-  strokeWeight(10);
-  line(mouseX,mouseY-20,mouseX,mouseY+20);
-  stroke("black");
-  strokeWeight(10);
-  line (0, 0, 400);
-}
+          for (let i = 0; i < largeBalls.length; i++) {
+                  largeBalls[i].drawLargeBall();
+                  largeBalls[i].moveLargeBall();
+                  largeBalls[i].speedLargeBall();
+                  largeBalls[i].killLargeBall();
+                }
 
-//ball class from which to create new balls with similar properties.
+}
+//creates the blue balls
 class Ball {
 
-	//every ball needs an x value, a y value, and a speed
 	constructor(x,y, speed){
 		this.x = x;
-    		this.y = y;
-        	this.speed = speed;
+    this.y = y;
+    this.speed = speed;
 	}
-
-	// draw a ball on the screen at x,y
+//draws the big blue balls
 	drawBall(){
-    		stroke(0);
-        	strokeWeight(1);
-    		fill("red");
-		ellipse(this.x,this.y,10,10);
+    stroke("red");
+    strokeWeight(1);
+  	fill("blue");
+    ellipse(this.x,this.y,70,70);
 	}
-
-	//update the location of the ball, so it moves across the screen
+//moves the larger balls
 	moveBall(){
 		this.x = this.x+ this.speed;
-		this.y = this.y+1;
+		this.y = this.y;
 	}
-
-	//if the ball hits the paddle, change the speed value to negative (send it in the opposite direction)
-  	bounceBall(){
-    		if (this.x >= mouseX-5 && this.x <= mouseX+5 && this.y > mouseY-20 && this.y < mouseY+20){
-      			this.speed = -this.speed;
+//resets your characte/kills them and creates the game over screen
+  	killBall(){
+    		if (this.x >= mouseX-35 && this.x <= mouseX+35 && this.y > mouseY-35 && this.y < mouseY+35){
+          background("black");
+          fill("red");
+          textSize(150);
+          text('GAME OVER', 250, 400);
+          textSize(50);
+          text('refresh the page', 530, 500);
+          textSize(37);
+          fill("yellow");
+          text('FINAL SCORE:', 20, 40);
+          textSize(37);
+          text(p, 285, 40);
+          resetSketch;
     		}
-
   	}
 
-    bounceBack(){
-    		if (this.x >=0 && this.x<=10){
-      			this.speed = -this.speed;
-    		}
+}
 
-  	}
-    bounceUp(){
-        if (this.x >=590 && this.x<=600){
-            this.y = -this.y;
-        }
-      }
+//creates the class of balls.
+class SmallBall {
 
-        bounceDown(){
-            if (this.y >=0 && this.y<=10){
-                this.y = -this.y
-            }
+  constructor(x,y,speed){
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+  }
+//draws the small red balls after a certain amount of time.
+drawSmallBall(){
+  if(p>5300 && p<8500){ //p>5300 && p<7000
+    fill("red");
+    ellipse(this.x, this.y, 30, 30);
+  }
+}
+//moves the small red balls
+moveSmallBall(){
+  this.x = this.x+this.speed;
+  this.y = this.y;
+}
+//Controls the direction and speed of the small red balls at different points in time
+speedSmallBall(){
+    if(p>5400 && p<7000){ //p>5400 && p<7000
+      this.x = this.x-20;
+      this.y = this.y;
+    } else if(p>7000 && p<9000) { //p>7000 && p<9000
+      this.y = this.y +this.speed;
+      this.x = this.x;
+    } else {
+      this.x = this.x +this.speed;
+      this.y = this.y;
+    }
+  }
+//kills your character after a certain point
+  killSmallBall(){
+    if (this.x >= mouseX-30 && this.x <= mouseX+30 && this.y > mouseY-30 && this.y < mouseY+30 && p>5700 && p<7000){  //p>5700 && p<7000
+      background("black");
+      fill("red");
+      textSize(150);
+      text('GAME OVER', 250, 400);
+      textSize(50);
+      text('refresh the page', 530, 500);
+      textSize(37);
+      fill("yellow");
+      text('FINAL SCORE:', 20, 40);
+      textSize(37);
+      text(p, 285, 40);
+      resetSketch;
+    }
+  }
+}
 
-        }
+class LargeBall {
 
+  constructor(x,y,speed){
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+  }
 
+drawLargeBall(){
+    if (p>8500 && p<11500){ // p>8500 && p<11500
+      fill("green");
+      ellipse(this.x, this.y, 150, 150);
+    }
+}
+
+moveLargeBall(){
+  this.y = this.y+this.speed;
+  this.x = this.x;
+}
+
+speedLargeBall(){
+  if(p>9500 && p<11500){
+    this.y = this.y+10;
+    this.x = this.x
+  }
+}
+
+killLargeBall(){
+  if (this.x >= mouseX-75 && this.x <= mouseX+75 && this.y > mouseY-75 && this.y < mouseY+75 && p>8700 && p<11500){  //p>8700 && p<11500
+    background("black");
+    fill("red");
+    textSize(150);
+    text('GAME OVER', 250, 400);
+    textSize(50);
+    text('refresh the page', 530, 500);
+    textSize(37);
+    fill("yellow");
+    text('FINAL SCORE:', 20, 40);
+    textSize(37);
+    text(p, 285, 40);
+    resetSketch;
+  }
+}
 
 }
